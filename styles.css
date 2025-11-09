@@ -98,8 +98,8 @@ body {
 }
 
 .bmw-logo {
-    width: 200px;
-    height: 200px;
+    max-width: 200px;
+    height: auto;
     filter: drop-shadow(0 0 30px rgba(0, 102, 177, 0.8));
 }
 
@@ -225,8 +225,11 @@ body {
 }
 
 .bmw-logo-wheel {
-    width: 100px;
-    height: 100px;
+    max-width: 100px;
+    max-height: 100px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
 }
 
 .wheel-pointer {
@@ -522,8 +525,7 @@ body {
     }
     
     .bmw-logo {
-        width: 150px;
-        height: 150px;
+        max-width: 150px;
     }
     
     .hero-title {
@@ -564,8 +566,8 @@ body {
     }
     
     .bmw-logo-wheel {
-        width: 75px;
-        height: 75px;
+        max-width: 75px;
+        max-height: 75px;
     }
     
     .spin-button {
