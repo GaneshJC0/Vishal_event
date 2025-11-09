@@ -10,149 +10,170 @@
     --bmw-dark: #1a1a1a;
     --bmw-light: #f5f5f5;
     --bmw-gray: #666;
+    --card-bg: rgba(26, 26, 26, 0.8);
+    --card-border: rgba(0, 102, 177, 0.3);
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #000;
+    background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
     color: #fff;
     overflow-x: hidden;
+    min-height: 100vh;
 }
 
 /* Hero Section */
 .hero-section {
     min-height: 100vh;
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), 
-                url('https://images.unsplash.com/photo-1617531653520-bd8d64a6b4e8?w=1600') center/cover fixed;
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 40px 0;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(0, 102, 177, 0.15), transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(0, 102, 177, 0.15), transparent 50%);
 }
 
-.hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 50% 50%, rgba(0, 102, 177, 0.2), transparent 70%);
+.hero-card {
+    background: linear-gradient(145deg, rgba(26, 26, 26, 0.9), rgba(10, 10, 10, 0.9));
+    border: 2px solid var(--card-border);
+    border-radius: 30px;
+    padding: 60px 40px;
+    text-align: center;
+    box-shadow: 
+        0 20px 60px rgba(0, 102, 177, 0.3),
+        0 0 100px rgba(0, 102, 177, 0.1),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 
+        0 30px 80px rgba(0, 102, 177, 0.4),
+        0 0 120px rgba(0, 102, 177, 0.2);
 }
 
 /* Event Info */
-.event-info {
-    margin-bottom: 80px;
-}
-
 .college-logo-container {
     margin-bottom: 25px;
 }
 
 .college-logo {
-    max-width: 300px;
+    max-width: 280px;
     height: auto;
     filter: drop-shadow(0 5px 20px rgba(255, 255, 255, 0.3));
 }
 
 .event-label {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     letter-spacing: 4px;
-    color: #ccc;
+    color: #999;
     margin-bottom: 15px;
     font-weight: 600;
     text-transform: uppercase;
 }
 
 .event-name {
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 900;
     letter-spacing: 8px;
     background: linear-gradient(135deg, #fff, var(--bmw-blue));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: 0;
+    margin-bottom: 40px;
 }
 
 /* BMW Logo */
 .bmw-logo-container {
-    margin: 80px 0 60px 0;
+    margin: 40px 0;
     animation: float 3s ease-in-out infinite;
 }
 
 @keyframes float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
+    50% { transform: translateY(-15px); }
 }
 
 .bmw-logo {
-    width: 250px;
-    height: 250px;
-    filter: drop-shadow(0 0 40px rgba(0, 102, 177, 0.9));
+    width: 200px;
+    height: 200px;
+    filter: drop-shadow(0 0 30px rgba(0, 102, 177, 0.8));
 }
 
-/* Hero Text */
 .hero-title {
-    font-size: clamp(2.5rem, 7vw, 6rem);
+    font-size: clamp(2rem, 5vw, 4.5rem);
     font-weight: 900;
     letter-spacing: 5px;
     margin-bottom: 20px;
-    text-shadow: 3px 3px 30px rgba(0, 102, 177, 0.6);
+    text-shadow: 0 0 40px rgba(0, 102, 177, 0.5);
     line-height: 1.2;
 }
 
 .hero-subtitle {
-    font-size: clamp(1.2rem, 3vw, 2rem);
+    font-size: clamp(1rem, 2vw, 1.5rem);
     font-weight: 300;
     letter-spacing: 3px;
-    color: #ccc;
+    color: #aaa;
 }
 
-/* Scroll Indicator */
-.scroll-indicator {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
+/* Content Sections */
+.content-section {
+    padding: 80px 0;
 }
 
-.scroll-indicator span {
-    display: block;
-    width: 28px;
-    height: 45px;
-    border: 3px solid #fff;
-    border-radius: 25px;
-    position: relative;
-}
-
-.scroll-indicator span::before {
-    content: '';
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 5px;
-    height: 12px;
-    background: #fff;
-    border-radius: 3px;
-    animation: scroll 2s infinite;
-}
-
-@keyframes scroll {
-    0% { top: 10px; opacity: 1; }
-    100% { top: 25px; opacity: 0; }
-}
-
-/* Wheel Section */
-.wheel-section {
-    background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
-    padding: 120px 0;
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
 }
 
 .section-title {
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 900;
     letter-spacing: 6px;
+    background: linear-gradient(135deg, #fff, var(--bmw-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Card Styles */
+.card-wrapper {
+    margin-bottom: 40px;
+}
+
+.content-card {
+    background: linear-gradient(145deg, rgba(26, 26, 26, 0.9), rgba(10, 10, 10, 0.9));
+    border: 2px solid var(--card-border);
+    border-radius: 25px;
+    padding: 40px;
+    box-shadow: 
+        0 15px 45px rgba(0, 102, 177, 0.2),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.content-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 
+        0 25px 60px rgba(0, 102, 177, 0.3),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    border-color: rgba(0, 102, 177, 0.5);
+}
+
+.card-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.card-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    letter-spacing: 5px;
     background: linear-gradient(135deg, #fff, var(--bmw-blue));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -160,26 +181,31 @@ body {
     margin-bottom: 10px;
 }
 
-.section-subtitle {
-    font-size: 1.3rem;
-    color: #999;
+.card-subtitle {
+    font-size: 1.1rem;
+    color: #888;
     letter-spacing: 3px;
     text-transform: uppercase;
 }
 
+.card-body {
+    padding: 20px 0;
+}
+
+/* Wheel Styles */
 .wheel-container {
     position: relative;
     width: 100%;
-    max-width: 500px;
+    max-width: 450px;
     margin: 0 auto;
     aspect-ratio: 1;
-    padding-bottom: 100px;
+    padding-bottom: 80px;
 }
 
 #wheelCanvas {
     width: 100%;
     height: 100%;
-    transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+    border-radius: 50%;
 }
 
 .wheel-center {
@@ -187,11 +213,11 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 130px;
-    height: 130px;
+    width: 120px;
+    height: 120px;
     background: #fff;
     border-radius: 50%;
-    box-shadow: 0 0 40px rgba(0, 102, 177, 0.9), 0 0 60px rgba(0, 102, 177, 0.6);
+    box-shadow: 0 0 40px rgba(0, 102, 177, 0.9);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -199,20 +225,20 @@ body {
 }
 
 .bmw-logo-wheel {
-    width: 110px;
-    height: 110px;
+    width: 100px;
+    height: 100px;
 }
 
 .wheel-pointer {
     position: absolute;
-    top: -25px;
+    top: -20px;
     left: 50%;
     transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-left: 25px solid transparent;
-    border-right: 25px solid transparent;
-    border-top: 45px solid var(--bmw-blue);
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 40px solid var(--bmw-blue);
     filter: drop-shadow(0 4px 15px rgba(0, 102, 177, 0.9));
     z-index: 11;
 }
@@ -225,28 +251,166 @@ body {
     background: linear-gradient(135deg, var(--bmw-blue), #004a8f);
     color: #fff;
     border: none;
-    padding: 20px 70px;
-    font-size: 1.5rem;
+    padding: 18px 60px;
+    font-size: 1.3rem;
     font-weight: 900;
     letter-spacing: 4px;
-    border-radius: 60px;
+    border-radius: 50px;
     cursor: pointer;
-    box-shadow: 0 10px 35px rgba(0, 102, 177, 0.6);
+    box-shadow: 0 10px 30px rgba(0, 102, 177, 0.5);
     transition: all 0.3s ease;
 }
 
 .spin-button:hover {
-    transform: translateX(-50%) translateY(-8px);
-    box-shadow: 0 15px 45px rgba(0, 102, 177, 0.9);
-}
-
-.spin-button:active {
-    transform: translateX(-50%) translateY(-2px);
+    transform: translateX(-50%) translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 102, 177, 0.7);
 }
 
 .spin-button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+/* Gallery Cards */
+.gallery-card {
+    padding: 0;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.gallery-image {
+    width: 100%;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.5s ease;
+}
+
+.gallery-card:hover .gallery-image {
+    transform: scale(1.1);
+}
+
+.gallery-card .card-body {
+    padding: 30px;
+    text-align: center;
+}
+
+.gallery-title {
+    font-size: 1.8rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.gallery-desc {
+    color: var(--bmw-blue);
+    font-size: 1rem;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Stats Section */
+.stats-bg {
+    background: radial-gradient(circle at center, rgba(0, 102, 177, 0.1), transparent 70%);
+}
+
+.stat-card {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(145deg, rgba(0, 102, 177, 0.2), rgba(0, 74, 143, 0.2));
+    border: 2px solid rgba(0, 102, 177, 0.4);
+}
+
+.stat-card:hover {
+    background: linear-gradient(145deg, rgba(0, 102, 177, 0.3), rgba(0, 74, 143, 0.3));
+    border-color: rgba(0, 102, 177, 0.6);
+}
+
+.stat-number {
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    font-weight: 900;
+    margin-bottom: 15px;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(0, 102, 177, 0.5);
+}
+
+.stat-label {
+    font-size: 1rem;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+/* Innovation Card */
+.innovation-card {
+    padding: 0;
+}
+
+.innovation-card .card-body {
+    padding: 60px 50px;
+}
+
+.innovation-image {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 25px 0 0 25px;
+}
+
+.innovation-text {
+    font-size: 1.3rem;
+    line-height: 1.8;
+    color: #ccc;
+    margin: 30px 0;
+}
+
+.cta-button {
+    background: transparent;
+    color: #fff;
+    border: 3px solid var(--bmw-blue);
+    padding: 16px 45px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    letter-spacing: 3px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.cta-button:hover {
+    background: var(--bmw-blue);
+    transform: translateX(10px);
+    box-shadow: 0 10px 30px rgba(0, 102, 177, 0.5);
+}
+
+/* Footer */
+.footer {
+    padding: 60px 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.footer-card {
+    padding: 40px;
+    background: linear-gradient(145deg, rgba(26, 26, 26, 0.6), rgba(10, 10, 10, 0.6));
+    border: 1px solid rgba(0, 102, 177, 0.2);
+}
+
+.footer h5 {
+    color: var(--bmw-blue);
+    font-weight: 900;
+    letter-spacing: 3px;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.footer p {
+    color: #999;
+    margin: 5px 0;
 }
 
 /* Prize Modal */
@@ -268,12 +432,12 @@ body {
 }
 
 .prize-content {
-    background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
+    background: linear-gradient(145deg, rgba(26, 26, 26, 0.95), rgba(10, 10, 10, 0.95));
     margin: 10% auto;
     padding: 50px;
     border: 3px solid var(--bmw-blue);
     width: 90%;
-    max-width: 550px;
+    max-width: 500px;
     border-radius: 25px;
     text-align: center;
     box-shadow: 0 0 60px rgba(0, 102, 177, 0.6);
@@ -288,7 +452,7 @@ body {
 .close-modal {
     color: #aaa;
     float: right;
-    font-size: 38px;
+    font-size: 36px;
     font-weight: bold;
     cursor: pointer;
     transition: color 0.3s;
@@ -300,7 +464,7 @@ body {
 }
 
 .prize-content h3 {
-    font-size: 3rem;
+    font-size: 2.5rem;
     margin: 30px 0;
     background: linear-gradient(135deg, #fff, var(--bmw-blue));
     -webkit-background-clip: text;
@@ -310,264 +474,139 @@ body {
 }
 
 .prize-content p {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     margin: 30px 0;
     color: #fff;
     font-weight: 600;
 }
 
-/* Gallery Section */
-.gallery-section {
-    background: #000;
-    padding: 120px 0;
-}
-
-.gallery-item {
-    overflow: hidden;
-    cursor: pointer;
-}
-
-.gallery-image {
-    width: 100%;
-    height: 450px;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    transition: transform 0.6s ease;
-}
-
-.gallery-item:hover .gallery-image {
-    transform: scale(1.15);
-}
-
-.gallery-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.95));
-    padding: 40px 30px;
-    transform: translateY(100%);
-    transition: transform 0.5s ease;
-}
-
-.gallery-item:hover .gallery-overlay {
-    transform: translateY(0);
-}
-
-.gallery-overlay h3 {
-    font-size: 2.5rem;
-    font-weight: 900;
-    letter-spacing: 3px;
-    margin-bottom: 10px;
-}
-
-.gallery-overlay p {
-    color: var(--bmw-blue);
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-    font-weight: 600;
-}
-
-/* Stats Section */
-.stats-section {
-    background: linear-gradient(135deg, var(--bmw-blue), #004a8f);
-    padding: 100px 0;
-}
-
-.stat-card {
-    padding: 30px 20px;
-}
-
-.stat-number {
-    font-size: 5rem;
-    font-weight: 900;
-    margin-bottom: 15px;
-    color: #fff;
-    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-.stat-label {
-    font-size: 1.1rem;
-    letter-spacing: 2px;
-    color: rgba(255, 255, 255, 0.9);
-    text-transform: uppercase;
-    font-weight: 600;
-}
-
-/* Innovation Section */
-.innovation-section {
-    background: #0a0a0a;
-    padding: 120px 0;
-}
-
-.innovation-image {
-    width: 100%;
-    height: 550px;
-    background-size: cover;
-    background-position: center;
-    border-radius: 25px;
-    box-shadow: 0 25px 70px rgba(0, 102, 177, 0.4);
-    transition: transform 0.5s ease;
-}
-
-.innovation-image:hover {
-    transform: scale(1.02);
-}
-
-.innovation-text {
-    font-size: 1.4rem;
-    line-height: 2;
-    color: #ccc;
-    margin: 40px 0;
-    font-weight: 400;
-}
-
-.cta-button {
-    background: transparent;
-    color: #fff;
-    border: 3px solid var(--bmw-blue);
-    padding: 18px 50px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    letter-spacing: 3px;
-    border-radius: 60px;
-    cursor: pointer;
-    transition: all 0.4s ease;
-}
-
-.cta-button:hover {
-    background: var(--bmw-blue);
-    transform: translateX(15px);
-    box-shadow: 0 10px 30px rgba(0, 102, 177, 0.5);
-}
-
-/* Footer */
-.footer {
-    background: #000;
-    padding: 50px 0;
-    border-top: 2px solid #222;
-}
-
-.footer h5 {
-    color: var(--bmw-blue);
-    font-weight: 900;
-    letter-spacing: 3px;
-    font-size: 1.3rem;
-}
-
-.footer p {
-    color: #999;
-    margin: 5px 0;
-    font-size: 1rem;
-}
-
 /* Responsive */
+@media (max-width: 992px) {
+    .innovation-image {
+        min-height: 350px;
+        border-radius: 25px 25px 0 0;
+    }
+    
+    .innovation-card .card-body {
+        padding: 40px 30px;
+    }
+}
+
 @media (max-width: 768px) {
     .hero-section {
-        background-attachment: scroll;
+        padding: 30px 0;
+    }
+    
+    .hero-card {
+        padding: 40px 30px;
+        border-radius: 20px;
     }
     
     .college-logo {
         max-width: 200px;
     }
     
-    .event-info {
-        margin-bottom: 50px;
-    }
-    
     .event-label {
-        font-size: 1rem;
+        font-size: 0.9rem;
         letter-spacing: 3px;
     }
     
     .event-name {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
         letter-spacing: 5px;
+        margin-bottom: 30px;
     }
     
     .bmw-logo-container {
-        margin: 50px 0 40px 0;
+        margin: 30px 0;
     }
     
     .bmw-logo {
-        width: 180px;
-        height: 180px;
+        width: 150px;
+        height: 150px;
     }
     
     .hero-title {
-        font-size: 2rem;
+        font-size: 1.8rem;
         letter-spacing: 3px;
     }
     
     .hero-subtitle {
-        font-size: 1rem;
-    }
-    
-    .wheel-section {
-        padding: 80px 0;
-    }
-    
-    .wheel-container {
-        max-width: 350px;
-        padding-bottom: 80px;
-    }
-    
-    .wheel-center {
-        width: 100px;
-        height: 100px;
-    }
-    
-    .bmw-logo-wheel {
-        width: 85px;
-        height: 85px;
-    }
-    
-    .spin-button {
-        padding: 15px 50px;
-        font-size: 1.2rem;
-    }
-    
-    .section-title {
-        font-size: 2.5rem;
-    }
-    
-    .gallery-section {
-        padding: 80px 0;
-    }
-    
-    .gallery-image {
-        height: 300px;
-    }
-    
-    .gallery-overlay h3 {
-        font-size: 1.8rem;
-    }
-    
-    .stats-section {
-        padding: 60px 0;
-    }
-    
-    .stat-number {
-        font-size: 3rem;
-    }
-    
-    .stat-label {
         font-size: 0.9rem;
     }
     
-    .innovation-section {
-        padding: 80px 0;
+    .content-section {
+        padding: 60px 0;
     }
     
-    .innovation-image {
-        height: 350px;
-        margin-bottom: 40px;
+    .content-card {
+        padding: 30px 20px;
+        border-radius: 20px;
+    }
+    
+    .card-header {
+        margin-bottom: 30px;
+    }
+    
+    .section-title, .card-title {
+        font-size: 2rem;
+        letter-spacing: 4px;
+    }
+    
+    .wheel-container {
+        max-width: 320px;
+        padding-bottom: 70px;
+    }
+    
+    .wheel-center {
+        width: 90px;
+        height: 90px;
+    }
+    
+    .bmw-logo-wheel {
+        width: 75px;
+        height: 75px;
+    }
+    
+    .spin-button {
+        padding: 14px 45px;
+        font-size: 1.1rem;
+    }
+    
+    .gallery-image {
+        height: 250px;
+    }
+    
+    .gallery-card .card-body {
+        padding: 25px;
+    }
+    
+    .gallery-title {
+        font-size: 1.5rem;
+    }
+    
+    .stat-card {
+        padding: 30px 15px;
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+    }
+    
+    .stat-label {
+        font-size: 0.85rem;
+    }
+    
+    .innovation-card .card-body {
+        padding: 30px 25px;
     }
     
     .innovation-text {
         font-size: 1.1rem;
-        line-height: 1.8;
+    }
+    
+    .footer-card {
+        padding: 30px 20px;
     }
     
     .prize-content {

@@ -1,10 +1,3 @@
-// Initialize AOS (Animate On Scroll) - DISABLED to prevent overlapping
-// AOS.init({
-//     duration: 1000,
-//     once: true,
-//     offset: 100
-// });
-
 // Wheel Configuration
 const prizes = [
     { name: "BMW Cap", color: "#0066b1" },
@@ -112,7 +105,6 @@ function spinWheel() {
             
             // Calculate winning prize
             const sliceAngle = (2 * Math.PI) / prizes.length;
-            // Add PI/2 to align with top pointer
             const adjustedRotation = (currentRotation + Math.PI / 2) % (2 * Math.PI);
             const winningIndex = Math.floor((2 * Math.PI - adjustedRotation) / sliceAngle) % prizes.length;
             
@@ -132,8 +124,6 @@ function spinWheel() {
 function showPrize(prize) {
     prizeText.textContent = `You won: ${prize}!`;
     modal.style.display = 'block';
-    
-    // Confetti effect
     createConfetti();
 }
 
@@ -223,6 +213,20 @@ function createConfetti() {
     }
 }
 
+// Responsive Canvas Size
+function resizeCanvas() {
+    const container = document.querySelector('.wheel-container');
+    if (container) {
+        const size = Math.min(container.offsetWidth, 500);
+        canvas.width = size;
+        canvas.height = size;
+        drawWheel();
+    }
+}
+
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
 // Smooth Scroll
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -236,24 +240,3 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
-
-// Parallax Effect on Hero
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const heroSection = document.querySelector('.hero-section');
-    if (heroSection) {
-        heroSection.style.transform = `translateY(${scrolled * 0.5}px)`;
-    }
-});
-
-// Responsive Canvas Size
-function resizeCanvas() {
-    const container = document.querySelector('.wheel-container');
-    const size = Math.min(container.offsetWidth, 500);
-    canvas.width = size;
-    canvas.height = size;
-    drawWheel();
-}
-
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
