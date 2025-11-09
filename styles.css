@@ -1,0 +1,462 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bmw-blue: #0066b1;
+    --bmw-dark: #1a1a1a;
+    --bmw-light: #f5f5f5;
+    --bmw-gray: #666;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #000;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+/* Event Banner */
+.event-banner {
+    background: linear-gradient(135deg, var(--bmw-blue), #004a8f);
+    padding: 12px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 102, 177, 0.3);
+}
+
+.event-banner p {
+    color: #fff;
+    font-size: 14px;
+    margin: 0;
+}
+
+.event-banner .badge {
+    background: #fff;
+    color: var(--bmw-blue);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Hero Section */
+.hero-section {
+    min-height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), 
+                url('https://images.unsplash.com/photo-1617531653520-bd8d64a6b4e8?w=1600') center/cover;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(0, 102, 177, 0.2), transparent 70%);
+}
+
+.bmw-logo-container {
+    margin-bottom: 30px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.bmw-logo {
+    width: 200px;
+    height: 200px;
+    filter: drop-shadow(0 0 30px rgba(0, 102, 177, 0.8));
+}
+
+.hero-title {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 900;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 20px rgba(0, 102, 177, 0.5);
+}
+
+.hero-subtitle {
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: #ccc;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.scroll-indicator span {
+    display: block;
+    width: 24px;
+    height: 40px;
+    border: 2px solid #fff;
+    border-radius: 20px;
+    position: relative;
+}
+
+.scroll-indicator span::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 10px;
+    background: #fff;
+    border-radius: 2px;
+    animation: scroll 2s infinite;
+}
+
+@keyframes scroll {
+    0% { top: 8px; opacity: 1; }
+    100% { top: 20px; opacity: 0; }
+}
+
+/* Wheel Section */
+.wheel-section {
+    background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
+    padding: 100px 0;
+}
+
+.section-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    letter-spacing: 4px;
+    background: linear-gradient(135deg, #fff, var(--bmw-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: #999;
+    letter-spacing: 2px;
+}
+
+.wheel-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    aspect-ratio: 1;
+}
+
+#wheelCanvas {
+    width: 100%;
+    height: 100%;
+    transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+}
+
+.wheel-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 30px rgba(0, 102, 177, 0.8), 0 0 50px rgba(0, 102, 177, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.bmw-logo-wheel {
+    width: 100px;
+    height: 100px;
+}
+
+.wheel-pointer {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 40px solid var(--bmw-blue);
+    filter: drop-shadow(0 4px 10px rgba(0, 102, 177, 0.8));
+    z-index: 11;
+}
+
+.spin-button {
+    position: absolute;
+    bottom: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--bmw-blue), #004a8f);
+    color: #fff;
+    border: none;
+    padding: 18px 60px;
+    font-size: 1.4rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(0, 102, 177, 0.5);
+    transition: all 0.3s ease;
+}
+
+.spin-button:hover {
+    transform: translateX(-50%) translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 102, 177, 0.8);
+}
+
+.spin-button:active {
+    transform: translateX(-50%) translateY(0);
+}
+
+.spin-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Prize Modal */
+.prize-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.prize-content {
+    background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
+    margin: 10% auto;
+    padding: 40px;
+    border: 2px solid var(--bmw-blue);
+    width: 90%;
+    max-width: 500px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 0 50px rgba(0, 102, 177, 0.5);
+    animation: slideDown 0.4s;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.close-modal {
+    color: #aaa;
+    float: right;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-modal:hover {
+    color: var(--bmw-blue);
+}
+
+.prize-content h3 {
+    font-size: 2.5rem;
+    margin: 20px 0;
+    background: linear-gradient(135deg, #fff, var(--bmw-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.prize-content p {
+    font-size: 1.5rem;
+    margin: 20px 0;
+    color: #ccc;
+}
+
+/* Gallery Section */
+.gallery-section {
+    background: #000;
+}
+
+.gallery-item {
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.gallery-image {
+    width: 100%;
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    transition: transform 0.5s ease;
+}
+
+.gallery-item:hover .gallery-image {
+    transform: scale(1.1);
+}
+
+.gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+    padding: 30px;
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+    transform: translateY(0);
+}
+
+.gallery-overlay h3 {
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.gallery-overlay p {
+    color: var(--bmw-blue);
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+}
+
+/* Stats Section */
+.stats-section {
+    background: linear-gradient(135deg, var(--bmw-blue), #004a8f);
+    padding: 80px 0;
+}
+
+.stat-card {
+    padding: 20px;
+}
+
+.stat-number {
+    font-size: 4rem;
+    font-weight: 900;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.stat-label {
+    font-size: 1rem;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+}
+
+/* Innovation Section */
+.innovation-section {
+    background: #0a0a0a;
+    padding: 100px 0;
+}
+
+.innovation-image {
+    width: 100%;
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 102, 177, 0.3);
+}
+
+.innovation-text {
+    font-size: 1.3rem;
+    line-height: 1.8;
+    color: #ccc;
+    margin: 30px 0;
+}
+
+.cta-button {
+    background: transparent;
+    color: #fff;
+    border: 2px solid var(--bmw-blue);
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    background: var(--bmw-blue);
+    transform: translateX(10px);
+}
+
+/* Footer */
+.footer {
+    background: #000;
+    padding: 40px 0;
+    border-top: 1px solid #333;
+}
+
+.footer h5 {
+    color: var(--bmw-blue);
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.footer p {
+    color: #999;
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .bmw-logo {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .wheel-container {
+        max-width: 350px;
+    }
+    
+    .gallery-image {
+        height: 300px;
+    }
+    
+    .innovation-image {
+        height: 300px;
+        margin-bottom: 30px;
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+    }
+}
