@@ -198,14 +198,19 @@ body {
     width: 100%;
     max-width: 450px;
     margin: 0 auto;
+    padding-bottom: 100px;
     aspect-ratio: 1;
-    padding-bottom: 80px;
 }
 
 #wheelCanvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 100%;
     height: 100%;
     border-radius: 50%;
+    display: block;
 }
 
 .wheel-center {
@@ -222,14 +227,18 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 10;
+    margin: 0;
+    padding: 0;
 }
 
 .bmw-logo-wheel {
+    display: block;
     max-width: 100px;
     max-height: 100px;
     width: auto;
     height: auto;
-    object-fit: contain;
+    margin: 0 auto;
+    padding: 0;
 }
 
 .wheel-pointer {
@@ -248,7 +257,7 @@ body {
 
 .spin-button {
     position: absolute;
-    bottom: 0;
+    top: calc(100% + 30px);
     left: 50%;
     transform: translateX(-50%);
     background: linear-gradient(135deg, var(--bmw-blue), #004a8f);
@@ -265,7 +274,7 @@ body {
 }
 
 .spin-button:hover {
-    transform: translateX(-50%) translateY(-5px);
+    transform: translateX(-50%) translateY(-3px);
     box-shadow: 0 15px 40px rgba(0, 102, 177, 0.7);
 }
 
@@ -557,7 +566,7 @@ body {
     
     .wheel-container {
         max-width: 320px;
-        padding-bottom: 70px;
+        padding-bottom: 90px;
     }
     
     .wheel-center {
@@ -568,11 +577,18 @@ body {
     .bmw-logo-wheel {
         max-width: 75px;
         max-height: 75px;
+        display: block;
+        margin: 0 auto;
     }
     
     .spin-button {
+        top: calc(100% + 20px);
         padding: 14px 45px;
         font-size: 1.1rem;
+    }
+    
+    .spin-button:hover {
+        transform: translateX(-50%) translateY(-2px);
     }
     
     .gallery-image {

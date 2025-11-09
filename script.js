@@ -19,12 +19,13 @@ const closeModal = document.querySelector('.close-modal');
 
 let isSpinning = false;
 let currentRotation = 0;
+let canvasSize = 500; // Logical size for drawing
 
 // Draw Wheel
 function drawWheel() {
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const radius = canvas.width / 2 - 10;
+    const centerX = canvasSize / 2;
+    const centerY = canvasSize / 2;
+    const radius = canvasSize / 2 - 10;
     const sliceAngle = (2 * Math.PI) / prizes.length;
 
     prizes.forEach((prize, index) => {
@@ -217,9 +218,18 @@ function createConfetti() {
 function resizeCanvas() {
     const container = document.querySelector('.wheel-container');
     if (container) {
-        const size = Math.min(container.offsetWidth, 500);
-        canvas.width = size;
-        canvas.height = size;
+        // Get the actual rendered size (container is square due to aspect-ratio: 1)
+        canvasSize = container.offsetWidth;
+        // Set canvas internal dimensions for high DPI displays
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = canvasSize * dpr;
+        canvas.height = canvasSize * dpr;
+        // Reset transformation matrix and scale for high DPI
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(dpr, dpr);
+        // Set CSS size to match container
+        canvas.style.width = canvasSize + 'px';
+        canvas.style.height = canvasSize + 'px';
         drawWheel();
     }
 }
