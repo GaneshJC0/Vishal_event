@@ -1,9 +1,9 @@
-// Initialize AOS (Animate On Scroll)
-AOS.init({
-    duration: 1000,
-    once: true,
-    offset: 100
-});
+// Initialize AOS (Animate On Scroll) - DISABLED to prevent overlapping
+// AOS.init({
+//     duration: 1000,
+//     once: true,
+//     offset: 100
+// });
 
 // Wheel Configuration
 const prizes = [
