@@ -16,20 +16,26 @@ function init3DCar() {
     const container = document.getElementById('car3d-container');
     if (!container) return;
 
+    // Get accurate dimensions using getBoundingClientRect (better for mobile)
+    const rect = container.getBoundingClientRect();
+    const width = rect.width || container.offsetWidth;
+    const height = rect.height || container.offsetHeight;
+
     // Scene setup
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x0a0a0a);
 
     // Camera setup
-    const aspect = container.offsetWidth / container.offsetHeight;
+    const aspect = width / height;
     camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
     camera.position.set(5, 2, 8);
     camera.lookAt(0, 0, 0);
 
     // Renderer setup
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(container.offsetWidth, container.offsetHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(width, height);
+    // Limit pixel ratio on mobile to improve performance
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(renderer.domElement);
@@ -417,22 +423,49 @@ function resize3DCar() {
     const container = document.getElementById('car3d-container');
     if (!container || !camera || !renderer) return;
 
-    const width = container.offsetWidth;
-    const height = container.offsetHeight;
+    // Use getBoundingClientRect for more accurate dimensions on mobile
+    const rect = container.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
 
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-    renderer.setSize(width, height);
+    if (width > 0 && height > 0) {
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio on mobile
+    }
 }
 
+// Handle window resize
 window.addEventListener('resize', resize3DCar);
 
+// Handle orientation change on mobile
+window.addEventListener('orientationchange', () => {
+    setTimeout(() => {
+        resize3DCar();
+    }, 100);
+});
+
 // Initialize 3D car when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init3DCar);
-} else {
-    init3DCar();
+function init3DCarWhenReady() {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                init3DCar();
+                // Resize after initialization to ensure correct dimensions
+                setTimeout(() => resize3DCar(), 100);
+            }, 100);
+        });
+    } else {
+        setTimeout(() => {
+            init3DCar();
+            // Resize after initialization to ensure correct dimensions
+            setTimeout(() => resize3DCar(), 100);
+        }, 100);
+    }
 }
+
+init3DCarWhenReady();
 
 // ============================================
 // WHEEL CONFIGURATION
