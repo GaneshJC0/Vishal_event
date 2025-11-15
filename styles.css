@@ -592,21 +592,36 @@ body {
     }
     
     .content-section {
-        padding: 60px 0;
+        padding: 40px 0;
+    }
+    
+    .card-wrapper {
+        margin-bottom: 20px;
     }
     
     .content-card {
         padding: 30px 20px;
         border-radius: 20px;
+        margin-bottom: 15px;
     }
     
     .card-header {
-        margin-bottom: 30px;
+        margin-bottom: 25px;
     }
     
     .section-title, .card-title {
         font-size: 2rem;
         letter-spacing: 4px;
+    }
+    
+    /* Reduce gap between cards in Bootstrap grid */
+    .row.g-4 {
+        --bs-gutter-x: 0.75rem;
+        --bs-gutter-y: 0.75rem;
+    }
+    
+    .section-header {
+        margin-bottom: 30px;
     }
 
     #car3d-container {
