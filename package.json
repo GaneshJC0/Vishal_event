@@ -1,0 +1,21 @@
+{
+  "name": "bmw-karobar-event",
+  "version": "1.0.0",
+  "description": "BMW @ Karobar 4.0 Event Website",
+  "scripts": {
+    "build": "echo 'Static site - no build required'",
+    "dev": "python -m http.server 8000 || python3 -m http.server 8000 || npx http-server -p 8000"
+  },
+  "keywords": [
+    "bmw",
+    "event",
+    "3d",
+    "interactive"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.x"
+  }
+}
+

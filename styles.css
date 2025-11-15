@@ -192,6 +192,37 @@ body {
     padding: 20px 0;
 }
 
+/* 3D Car Container Styles */
+#car3d-container {
+    width: 100%;
+    height: 500px;
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+    box-shadow: inset 0 0 50px rgba(0, 102, 177, 0.3);
+    cursor: grab;
+}
+
+#car3d-container:active {
+    cursor: grabbing;
+}
+
+#car3d-container canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.car-controls-text {
+    text-align: center;
+    margin-top: 20px;
+    color: #888;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
 /* Wheel Styles */
 .wheel-container {
     position: relative;
@@ -502,6 +533,10 @@ body {
     .innovation-card .card-body {
         padding: 40px 30px;
     }
+
+    #car3d-container {
+        height: 400px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -562,6 +597,15 @@ body {
     .section-title, .card-title {
         font-size: 2rem;
         letter-spacing: 4px;
+    }
+
+    #car3d-container {
+        height: 300px;
+    }
+
+    .car-controls-text {
+        font-size: 0.8rem;
+        margin-top: 15px;
     }
     
     .wheel-container {
