@@ -129,6 +129,9 @@ function loadFBXCar() {
             const center = box.getCenter(new THREE.Vector3());
             car.position.sub(center.multiplyScalar(scale));
             
+            // Move model upwards (adjust Y position)
+            car.position.y += 1.5; // Move up by 1.5 units
+            
             // Add to scene
             scene.add(car);
             
@@ -321,6 +324,9 @@ function createBMWCar() {
     spoiler.position.set(-2, 1.3, 0);
     spoiler.rotation.x = -0.1;
     car.add(spoiler);
+
+    // Move model upwards (adjust Y position)
+    car.position.y += 1.5; // Move up by 1.5 units
 
     scene.add(car);
 }
