@@ -466,6 +466,61 @@ body {
     margin: 5px 0;
 }
 
+.footer-social {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.instagram-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 8px 16px;
+    border-radius: 25px;
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    background-size: 200% 200%;
+    animation: gradient-shift 3s ease infinite;
+}
+
+.instagram-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(188, 24, 136, 0.4);
+}
+
+.instagram-icon {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+    transition: transform 0.3s ease;
+}
+
+.instagram-link:hover .instagram-icon {
+    transform: scale(1.1);
+}
+
+.instagram-link span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 /* Prize Modal */
 .prize-modal {
     display: none;
@@ -695,6 +750,25 @@ body {
     
     .footer-card {
         padding: 30px 20px;
+    }
+    
+    .footer-social {
+        margin-top: 15px;
+        justify-content: center;
+    }
+    
+    .col-md-6.text-md-end {
+        text-align: center !important;
+    }
+    
+    .instagram-link {
+        padding: 6px 14px;
+        font-size: 0.85rem;
+    }
+    
+    .instagram-icon {
+        width: 20px;
+        height: 20px;
     }
     
     .prize-content {
