@@ -23,7 +23,8 @@ function init3DCar() {
 
     // Scene setup
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0a0a0a);
+    // No background - transparent (will use CSS background)
+    scene.background = null;
 
     // Camera setup
     const aspect = width / height;
@@ -32,12 +33,19 @@ function init3DCar() {
     camera.lookAt(0, 0, 0);
 
     // Renderer setup
-    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer = new THREE.WebGLRenderer({ 
+        antialias: true, 
+        alpha: true,
+        powerPreference: "high-performance",
+        preserveDrawingBuffer: false
+    });
     renderer.setSize(width, height);
     // Limit pixel ratio on mobile to improve performance
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    // Shadows disabled for better mobile performance and no ground needed
+    renderer.shadowMap.enabled = false;
+    // Ensure transparency works
+    renderer.setClearColor(0x000000, 0); // Transparent background
     container.appendChild(renderer.domElement);
 
     // Lighting
@@ -46,7 +54,7 @@ function init3DCar() {
 
     const directionalLight1 = new THREE.DirectionalLight(0xffffff, 0.8);
     directionalLight1.position.set(5, 10, 5);
-    directionalLight1.castShadow = true;
+    directionalLight1.castShadow = false; // No shadows needed without ground
     scene.add(directionalLight1);
 
     const directionalLight2 = new THREE.DirectionalLight(0x0066b1, 0.5);
@@ -57,18 +65,8 @@ function init3DCar() {
     pointLight.position.set(0, 5, 0);
     scene.add(pointLight);
 
-    // Ground with reflection
-    const groundGeometry = new THREE.CircleGeometry(15, 64);
-    const groundMaterial = new THREE.MeshStandardMaterial({
-        color: 0x111111,
-        metalness: 0.8,
-        roughness: 0.2
-    });
-    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
-    ground.rotation.x = -Math.PI / 2;
-    ground.position.y = -0.5;
-    ground.receiveShadow = true;
-    scene.add(ground);
+    // Ground removed - no ground plane blocking view
+    // Ground with reflection removed for better mobile viewing
 
     // Load car model
     if (USE_FBX_MODEL) {
@@ -109,11 +107,12 @@ function loadFBXCar() {
         function (object) {
             car = object;
             
-            // Enable shadows for all meshes
+            // Optimize meshes for mobile
             car.traverse(function (child) {
                 if (child.isMesh) {
-                    child.castShadow = true;
-                    child.receiveShadow = true;
+                    // No shadows needed - better mobile performance
+                    child.castShadow = false;
+                    child.receiveShadow = false;
                     // Enable smooth shading
                     if (child.material) {
                         child.material.needsUpdate = true;

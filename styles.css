@@ -216,6 +216,9 @@ body {
     height: 100% !important;
     touch-action: none;
     -webkit-touch-callout: none;
+    background: transparent !important;
+    position: relative;
+    z-index: 1;
 }
 
 .car-controls-text {
