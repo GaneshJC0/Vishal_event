@@ -386,6 +386,49 @@ body {
     margin: 0;
 }
 
+/* Slider Card */
+.slider-card .card-body {
+    padding: 0;
+}
+
+.slider-card .carousel {
+    position: relative;
+}
+
+.slider-image {
+    height: 420px;
+    object-fit: cover;
+    border-radius: 0 0 30px 30px;
+}
+
+.slider-control {
+    width: 8%;
+    
+    border: none;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+}
+
+.slider-control:hover {
+    opacity: 1;
+}
+
+.slider-indicators button {
+    background-color: rgba(255, 255, 255, 0.6);
+    border: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin: 0 6px;
+    transition: all 0.3s ease;
+}
+
+.slider-indicators .active {
+    background-color: var(--bmw-blue);
+    width: 28px;
+    border-radius: 8px;
+}
+
 /* Stats Section */
 .stats-bg {
     background: radial-gradient(circle at center, rgba(0, 102, 177, 0.1), transparent 70%);
@@ -656,6 +699,15 @@ body {
 
     .logo-divider {
         font-size: 2.2rem;
+    }
+
+    .slider-image {
+        height: 260px;
+        border-radius: 0 0 20px 20px;
+    }
+
+    .slider-control {
+        width: 12%;
     }
     
     .event-label {
