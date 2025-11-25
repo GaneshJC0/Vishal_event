@@ -56,14 +56,33 @@ body {
 }
 
 /* Event Info */
-.college-logo-container {
+.collab-logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
     margin-bottom: 25px;
 }
 
-.college-logo {
-    max-width: 280px;
+.collab-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.college-logo,
+.partner-logo {
+    max-width: 220px;
     height: auto;
     filter: drop-shadow(0 5px 20px rgba(255, 255, 255, 0.3));
+}
+
+.logo-divider {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--bmw-blue);
+    line-height: 1;
 }
 
 .event-label {
@@ -322,6 +341,12 @@ body {
 }
 
 /* Gallery Cards */
+.gallery-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
 .gallery-card {
     padding: 0;
     overflow: hidden;
@@ -614,8 +639,23 @@ body {
         border-radius: 20px;
     }
     
-    .college-logo {
-        max-width: 200px;
+    .collab-logos {
+        gap: 12px;
+        flex-wrap: nowrap;
+    }
+
+    .collab-logo {
+        flex: 1 1 0;
+    }
+
+    .college-logo,
+    .partner-logo {
+        max-width: 45vw;
+        width: 100%;
+    }
+
+    .logo-divider {
+        font-size: 2.2rem;
     }
     
     .event-label {
