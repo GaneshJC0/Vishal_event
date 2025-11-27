@@ -474,11 +474,11 @@ init3DCarWhenReady();
 // Configure weights so key chains total ~10% probability and blank fields total ~90%
 // Each blank slice uses weight 9 and each keychain weight 1 gives total keychain probability 3*1 / (3*9 + 3*1) = 3/30 = 10%
 const prizes = [
-    { name: "", color: "#0066b1", weight: 9 },
+    { name: "RIP Luck", color: "#0066b1", weight: 9 },
     { name: "Key chain", color: "#004a8f", weight: 1 },
-    { name: "", color: "#0066b1", weight: 9 },
+    { name: "Skill Issue", color: "#0066b1", weight: 9 },
     { name: "Key chain", color: "#004a8f", weight: 1 },
-    { name: "", color: "#0066b1", weight: 9 },
+    { name: "Too Slow", color: "#0066b1", weight: 9 },
     { name: "Key chain", color: "#004a8f", weight: 1 }
 ];
 
@@ -489,10 +489,12 @@ const modal = document.getElementById('prizeModal');
 const prizeTitle = document.getElementById('prizeTitle');
 const prizeText = document.getElementById('prizeText');
 const closeModal = document.querySelector('.close-modal');
+const modalCtaBtn = document.getElementById('modalCtaBtn');
 
 let isSpinning = false;
 let currentRotation = 0;
 let canvasSize = 500;
+const SPIN_USED_KEY = 'wheelHasSpun';
 
 // Draw Wheel
 function drawWheel() {
@@ -533,6 +535,31 @@ function drawWheel() {
     ctx.stroke();
 }
 
+// Check whether this device (browser) has already used the spin
+function checkSpinAvailability() {
+    try {
+        const hasSpun = localStorage.getItem(SPIN_USED_KEY) === 'true';
+        if (hasSpun) {
+            spinButton.disabled = true;
+            spinButton.textContent = 'ALREADY SPUN';
+        } else {
+            spinButton.disabled = false;
+            spinButton.textContent = 'SPIN';
+        }
+    } catch (err) {
+        // localStorage unavailable (e.g., third-party restriction); fallback to enabled
+        spinButton.disabled = false;
+    }
+}
+
+function markAsSpun() {
+    try {
+        localStorage.setItem(SPIN_USED_KEY, 'true');
+    } catch (err) {
+        // ignore set errors (e.g., storage disabled)
+    }
+}
+
 // Helper: select an index with weighted probability
 function chooseWeightedIndex(weights) {
     const total = weights.reduce((sum, w) => sum + w, 0);
@@ -556,10 +583,24 @@ function simulateWheelDistribution(iterations = 10000) {
 }
 
 drawWheel();
+// Check localStorage to see if this device already used a spin
+checkSpinAvailability();
 
 // Spin Wheel Function
 function spinWheel() {
     if (isSpinning) return;
+    try {
+        if (localStorage.getItem(SPIN_USED_KEY) === 'true') {
+            // Already spun on this device; ensure button state is disabled and don't allow a new spin
+            spinButton.disabled = true;
+            spinButton.textContent = 'ALREADY SPUN';
+            return;
+        }
+    } catch (err) {
+        // ignore storage errors and allow spin
+    }
+    // Mark device as having spun immediately to prevent re-spins across tabs
+    markAsSpun();
     
     isSpinning = true;
     spinButton.disabled = true;
@@ -618,8 +659,9 @@ function spinWheel() {
                 const finalWinningIndex = typeof winningIndex !== 'undefined' ? winningIndex : computedIndex;
                 showPrize(prizes[finalWinningIndex].name);
                 isSpinning = false;
-                spinButton.disabled = false;
-                spinButton.textContent = 'SPIN';
+                // Keep the button disabled since user has already spun on this device
+                spinButton.disabled = true;
+                spinButton.textContent = 'ALREADY SPUN';
             }, 500);
         }
     }
@@ -630,23 +672,39 @@ function spinWheel() {
 // Show Prize Modal
 function showPrize(prize) {
     // Custom messages based on where the wheel stops
-    // Treat empty prize names as the 'loss' / 'better luck next time' case
-    if (!prize || prize.trim() === "") {
-        // No "Congratulations" title on loss
-        if (prizeTitle) prizeTitle.textContent = "";
+    // Normalize prize for comparisons
+    const p = (prize || '').toString().trim().toLowerCase();
+    // Default: no title
+    if (prizeTitle) prizeTitle.textContent = "";
+
+    // Map specific messages per prize name
+    if (!p) {
         prizeText.textContent = "Oops, better luck next time.";
-    } else if (prize === "Key chain") {
-        // Show a single, non-repeated message for keychain win
-        if (prizeTitle) prizeTitle.textContent = "";
+    } else if (p === 'key chain' || p === 'keychain') {
         prizeText.textContent = "Congratulations you won keychain.";
+    } else if (p === 'rip luck' || p === 'rip') {
+        prizeText.textContent = "Oops no Keychain this time.";
+    } else if (p === 'skill issue') {
+        prizeText.textContent = "Sorry your keychain escaped";
+    } else if (p === 'too slow' || p === 'to slow') {
+        prizeText.textContent = "Keychain said catch me if you can";
     } else {
-        // Fallback (should not normally happen with current prizes)
-        if (prizeTitle) prizeTitle.textContent = "Result";
+        // Fallback (other prizes)
         prizeText.textContent = `You won: ${prize}!`;
     }
     modal.style.display = 'block';
-    // Only show confetti for winning outcome
-    if (prize === "Key chain") {
+    // Show or hide the modal CTA button per prize; remove "Spin Again" action for losing results
+    if (modalCtaBtn) {
+        if (p === 'key chain' || p === 'keychain') {
+            modalCtaBtn.style.display = ''; // allow default
+            modalCtaBtn.textContent = 'Close';
+        } else {
+            // Hide the CTA for non-winning results (user shouldn't spin again)
+            modalCtaBtn.style.display = 'none';
+        }
+    }
+    // Only show confetti for winning outcome (case-insensitive check)
+    if (p === 'key chain' || p === 'keychain') {
         createConfetti();
     }
 }
@@ -654,6 +712,13 @@ function showPrize(prize) {
 // Close Modal
 closeModal.onclick = function() {
     modal.style.display = 'none';
+}
+
+// Close modal via CTA button (if visible); do NOT reload (one spin per device enforced)
+if (modalCtaBtn) {
+    modalCtaBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
 }
 
 window.onclick = function(event) {
