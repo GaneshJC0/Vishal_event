@@ -471,13 +471,14 @@ init3DCarWhenReady();
 // ============================================
 
 // Spin wheel prizes: 6 fields, some fields are intentionally blank and others are keychain prizes
-// Add optional 'weight' so we can bias the wheel's stopping probability
+// Configure weights so key chains total ~10% probability and blank fields total ~90%
+// Each blank slice uses weight 9 and each keychain weight 1 gives total keychain probability 3*1 / (3*9 + 3*1) = 3/30 = 10%
 const prizes = [
-    { name: "", color: "#0066b1", weight: 4 },
+    { name: "", color: "#0066b1", weight: 9 },
     { name: "Key chain", color: "#004a8f", weight: 1 },
-    { name: "", color: "#0066b1", weight: 4 },
+    { name: "", color: "#0066b1", weight: 9 },
     { name: "Key chain", color: "#004a8f", weight: 1 },
-    { name: "", color: "#0066b1", weight: 4 },
+    { name: "", color: "#0066b1", weight: 9 },
     { name: "Key chain", color: "#004a8f", weight: 1 }
 ];
 
