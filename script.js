@@ -470,21 +470,22 @@ init3DCarWhenReady();
 // WHEEL CONFIGURATION
 // ============================================
 
+// Spin wheel prizes: 6 fields, some fields are intentionally blank and others are keychain prizes
+// Add optional 'weight' so we can bias the wheel's stopping probability
 const prizes = [
-    { name: "BMW Cap", color: "#0066b1" },
-    { name: "Keychain", color: "#004a8f" },
-    { name: "T-Shirt", color: "#0066b1" },
-    { name: "Water Bottle", color: "#004a8f" },
-    { name: "Notebook", color: "#0066b1" },
-    { name: "Pen Set", color: "#004a8f" },
-    { name: "Sticker Pack", color: "#0066b1" },
-    { name: "Lanyard", color: "#004a8f" }
+    { name: "", color: "#0066b1", weight: 4 },
+    { name: "Key chain", color: "#004a8f", weight: 1 },
+    { name: "", color: "#0066b1", weight: 4 },
+    { name: "Key chain", color: "#004a8f", weight: 1 },
+    { name: "", color: "#0066b1", weight: 4 },
+    { name: "Key chain", color: "#004a8f", weight: 1 }
 ];
 
 const canvas = document.getElementById('wheelCanvas');
 const ctx = canvas.getContext('2d');
 const spinButton = document.getElementById('spinButton');
 const modal = document.getElementById('prizeModal');
+const prizeTitle = document.getElementById('prizeTitle');
 const prizeText = document.getElementById('prizeText');
 const closeModal = document.querySelector('.close-modal');
 
@@ -531,6 +532,28 @@ function drawWheel() {
     ctx.stroke();
 }
 
+// Helper: select an index with weighted probability
+function chooseWeightedIndex(weights) {
+    const total = weights.reduce((sum, w) => sum + w, 0);
+    let rand = Math.random() * total;
+    for (let i = 0; i < weights.length; i++) {
+        if (rand < weights[i]) return i;
+        rand -= weights[i];
+    }
+    return weights.length - 1;
+}
+
+// Utility: simulate weighted distribution count (debug only) - call from console if needed:
+function simulateWheelDistribution(iterations = 10000) {
+    const weights = prizes.map(p => (typeof p.weight === 'number' ? p.weight : 1));
+    const counts = Array(prizes.length).fill(0);
+    for (let i = 0; i < iterations; i++) {
+        counts[chooseWeightedIndex(weights)]++;
+    }
+    console.log('Distribution over', iterations, 'iterations:');
+    counts.forEach((c, i) => console.log(i, prizes[i].name || '(empty)', c, (c/iterations*100).toFixed(2) + '%'));
+}
+
 drawWheel();
 
 // Spin Wheel Function
@@ -544,8 +567,25 @@ function spinWheel() {
     const minSpins = 5;
     const maxSpins = 10;
     const spins = Math.floor(Math.random() * (maxSpins - minSpins + 1)) + minSpins;
-    const randomAngle = Math.random() * 2 * Math.PI;
-    const totalRotation = spins * 2 * Math.PI + randomAngle;
+
+    // Choose the winning index using weighted selection so empty fields occur more often
+    const weights = prizes.map(p => (typeof p.weight === 'number' ? p.weight : 1));
+    const winningIndex = chooseWeightedIndex(weights);
+
+    // We will compute a target end rotation that makes the wheel stop on winningIndex
+    const sliceAngle = (2 * Math.PI) / prizes.length;
+    // adjustedRotation = (finalRotation + PI/2) % (2PI) with winningIndex
+    // For winningIndex j, adjustedRotation must be in range [2PI - (j+1)*sliceAngle, 2PI - j*sliceAngle)
+    const wedgeStart = 2 * Math.PI - (winningIndex + 1) * sliceAngle;
+    const wedgeEnd = wedgeStart + sliceAngle;
+    const adjustedRotation = wedgeStart + Math.random() * (wedgeEnd - wedgeStart);
+    // finalRotation is adjustedRotation - PI/2 (normalize to 0..2PI)
+    let finalRotation = adjustedRotation - Math.PI / 2;
+    finalRotation = ((finalRotation % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+
+    const startRotationNormalized = ((currentRotation % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+    let totalRotation = spins * 2 * Math.PI + (finalRotation - startRotationNormalized);
+    if (totalRotation < 0) totalRotation += 2 * Math.PI;
 
     const duration = 4000;
     const startTime = Date.now();
@@ -569,10 +609,13 @@ function spinWheel() {
             
             const sliceAngle = (2 * Math.PI) / prizes.length;
             const adjustedRotation = (currentRotation + Math.PI / 2) % (2 * Math.PI);
-            const winningIndex = Math.floor((2 * Math.PI - adjustedRotation) / sliceAngle) % prizes.length;
+            // Compute winning index from final rotation (sanity-check); otherwise fallback to our chosen index
+            const computedIndex = Math.floor((2 * Math.PI - adjustedRotation) / sliceAngle) % prizes.length;
             
             setTimeout(() => {
-                showPrize(prizes[winningIndex].name);
+                // Normally computedIndex should equal our chosen winningIndex; use our chosen index when available
+                const finalWinningIndex = typeof winningIndex !== 'undefined' ? winningIndex : computedIndex;
+                showPrize(prizes[finalWinningIndex].name);
                 isSpinning = false;
                 spinButton.disabled = false;
                 spinButton.textContent = 'SPIN';
@@ -585,9 +628,26 @@ function spinWheel() {
 
 // Show Prize Modal
 function showPrize(prize) {
-    prizeText.textContent = `You won: ${prize}!`;
+    // Custom messages based on where the wheel stops
+    // Treat empty prize names as the 'loss' / 'better luck next time' case
+    if (!prize || prize.trim() === "") {
+        // No "Congratulations" title on loss
+        if (prizeTitle) prizeTitle.textContent = "";
+        prizeText.textContent = "Oops, better luck next time.";
+    } else if (prize === "Key chain") {
+        // Show a single, non-repeated message for keychain win
+        if (prizeTitle) prizeTitle.textContent = "";
+        prizeText.textContent = "Congratulations you won keychain.";
+    } else {
+        // Fallback (should not normally happen with current prizes)
+        if (prizeTitle) prizeTitle.textContent = "Result";
+        prizeText.textContent = `You won: ${prize}!`;
+    }
     modal.style.display = 'block';
-    createConfetti();
+    // Only show confetti for winning outcome
+    if (prize === "Key chain") {
+        createConfetti();
+    }
 }
 
 // Close Modal
