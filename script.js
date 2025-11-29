@@ -471,15 +471,15 @@ init3DCarWhenReady();
 // ============================================
 
 // Spin wheel prizes: 6 fields, some fields are intentionally blank and others are keychain prizes
-// Configure weights so key chains total ~10% probability and blank fields total ~90%
-// Each blank slice uses weight 9 and each keychain weight 1 gives total keychain probability 3*1 / (3*9 + 3*1) = 3/30 = 10%
+// Configure weights so key chain prizes are impossible (0% chance) and other fields take 100%
+// Each non-key prize uses weight 9 and each keychain weight is 0 so total keychain probability is 0
 const prizes = [
     { name: "RIP Luck", color: "#0066b1", weight: 9 },
-    { name: "Key chain", color: "#004a8f", weight: 1 },
+    { name: "Key chain", color: "#004a8f", weight: 0 },
     { name: "Skill Issue", color: "#0066b1", weight: 9 },
-    { name: "Key chain", color: "#004a8f", weight: 1 },
+    { name: "Key chain", color: "#004a8f", weight: 0 },
     { name: "Too Slow", color: "#0066b1", weight: 9 },
-    { name: "Key chain", color: "#004a8f", weight: 1 }
+    { name: "Key chain", color: "#004a8f", weight: 0 }
 ];
 
 const canvas = document.getElementById('wheelCanvas');
